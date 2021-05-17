@@ -2,20 +2,30 @@ package com.adaptionsoft.games.trivia.runner;
 
 public class Player {
 
-    private final String name;
+	private final String name;
 
-    public Player(final String name) {
-        super();
-        this.name = name;
-    }
+	private int purse = 0;
 
-    public String getName() {
-        return name;
-    }
+	public Player(final String name) {
+		super();
+		this.name = name;
+	}
 
-    @Override
-    public String toString() {
-        return this.getName();
-    }
+	public String getName() {
+		return name;
+	}
+
+	public int getPurse() {
+		return purse;
+	}
+
+	@Override
+	public String toString() {
+		return this.getName();
+	}
+
+	public void increasePurse() {
+		purse++;
+	}
 
 }
