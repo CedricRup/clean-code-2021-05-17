@@ -1,6 +1,5 @@
 package com.adaptionsoft.games.trivia;
 
-import com.adaptionsoft.games.uglytrivia.Game;
 import org.approvaltests.Approvals;
 import org.junit.Test;
 
