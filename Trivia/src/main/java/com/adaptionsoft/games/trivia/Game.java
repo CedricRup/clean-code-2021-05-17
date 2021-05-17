@@ -12,8 +12,6 @@ public class Game {
 	private static final int MAX_PLAYERS = 6;
 	public static final int WINNING_SCORE = 6;
 	private final List<Player> players = new ArrayList<>();
-	private final int[] places = new int[MAX_PLAYERS];
-	private final boolean[] inPenaltyBox = new boolean[MAX_PLAYERS];
 
 	private final LinkedList<String> popQuestions = new LinkedList<>();
 	private final LinkedList<String> scienceQuestions = new LinkedList<>();
@@ -35,30 +33,30 @@ public class Game {
 	public void addPlayer(final String playerName) {
 
 		players.add(new Player(playerName));
-		places[howManyPlayers()] = 0;
-		inPenaltyBox[howManyPlayers()] = false;
+		releaseFromJail();
 
 		System.out.println(playerName + " was added");
 		System.out.println("There are " + howManyPlayers() + " players");
+	}
+
+	private void releaseFromJail() {
+		players.get(currentPlayer).releaseFromJail();
 	}
 
 	public void roll(int roll) {
 		System.out.println(players.get(currentPlayer) + " is the current player");
 		System.out.println("They have rolled a " + roll);
 
-		if (inPenaltyBox[currentPlayer]) {
+		if (players.get(currentPlayer).isInJail()) {
 			if (roll % 2 != 0) {
 				// User is getting out of penalty box
 				outOfPenaltyBox = true;
 				// Write tha user get out
 				System.out.println(players.get(currentPlayer) + " is getting out of the penalty box");
 				// Add roll to place
-				places[currentPlayer] = places[currentPlayer] + roll;
-				if (places[currentPlayer] > 11) {
-					places[currentPlayer] = places[currentPlayer] - 12;
-				}
+				addRollToPlace(roll);
 
-				System.out.println(players.get(currentPlayer) + "'s new location is " + places[currentPlayer]);
+				System.out.println(players.get(currentPlayer) + "'s new location is " + getPlace());
 				System.out.println("The category is " + currentCategory().getLabel());
 				askQuestion();
 			} else {
@@ -68,16 +66,20 @@ public class Game {
 
 		} else {
 
-			places[currentPlayer] = places[currentPlayer] + roll;
-			if (places[currentPlayer] > 11) {
-				places[currentPlayer] = places[currentPlayer] - 12;
-			}
-
-			System.out.println(players.get(currentPlayer) + "'s new location is " + places[currentPlayer]);
+			addRollToPlace(roll);
+			System.out.println(players.get(currentPlayer) + "'s new location is " + getPlace());
 			System.out.println("The category is " + currentCategory().getLabel());
 			askQuestion();
 		}
 
+	}
+
+	private int getPlace() {
+		return players.get(currentPlayer).getPlace();
+	}
+
+	private void addRollToPlace(int roll) {
+		players.get(currentPlayer).increasePlace(roll);
 	}
 
 	private void askQuestion() {
@@ -96,7 +98,7 @@ public class Game {
 	}
 
 	private QuestionsCategory currentCategory() {
-		switch (places[currentPlayer]) {
+		switch (getPlace()) {
 		case 0:
 		case 4:
 		case 8:
@@ -118,7 +120,7 @@ public class Game {
 	 * To Call when answer is right
 	 */
 	public boolean wasCorrectlyAnswered() {
-		if (inPenaltyBox[currentPlayer]) {
+		if (players.get(currentPlayer).isInJail()) {
 			if (outOfPenaltyBox) {
 				System.out.println("Answer was correct!!!!");
 				players.get(currentPlayer).increasePurse();
@@ -157,19 +159,16 @@ public class Game {
 		}
 	}
 
-	/**
-	 * To Call when answer is right
-	 */
 	public boolean wrongAnswer() {
 		System.out.println("Question was incorrectly answered");
 		System.out.println(players.get(currentPlayer) + " was sent to the penalty box");
-		inPenaltyBox[currentPlayer] = true;
+		players.get(currentPlayer).putInJail();
 
 		currentPlayer++;
 		if (currentPlayer == players.size()) {
 			currentPlayer = 0;
 		}
-		// Must alwys return true
+		// Must always return true
 		return true;
 	}
 

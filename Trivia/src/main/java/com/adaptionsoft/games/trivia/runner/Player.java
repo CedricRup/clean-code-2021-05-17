@@ -5,6 +5,8 @@ public class Player {
 	private final String name;
 
 	private int purse = 0;
+	private int place = 0;
+	private boolean inPenaltyBox = false;
 
 	public Player(final String name) {
 		super();
@@ -27,5 +29,29 @@ public class Player {
 	public void increasePurse() {
 		purse++;
 	}
+
+	public void increasePlace(int roll) {
+		place += roll;
+		if (place > 11) {
+			place -= 12;
+		}
+	}
+
+	public int getPlace() {
+		return place;
+	}
+
+	public void putInJail() {
+		inPenaltyBox = true;
+	}
+
+	public void releaseFromJail() {
+		inPenaltyBox = false;
+	}
+
+	public boolean isInJail() {
+		return inPenaltyBox;
+	}
+
 
 }
