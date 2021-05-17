@@ -37,20 +37,11 @@ public class Game {
 			popQuestions.addLast("Pop Question " + i);
 			scienceQuestions.addLast("Science Question " + i);
 			sportsQuestions.addLast("Sports Question " + i);
-			rockQuestions.addLast(createMovieQuestion(i));
+			rockQuestions.addLast("Rock Question " + i);
 		}
-		// shuf()
 	}
 
-	public String createMovieQuestion(int index) {
-		return "Rock Question " + index;
-	}
-
-	public boolean isPlayable() {
-		return howManyPlayers() >= 2;
-	}
-
-	public boolean Add(String playerName) {
+	public boolean addPlayer(String playerName) {
 
 		players.add(playerName);
 		places[howManyPlayers()] = 0;
@@ -58,12 +49,8 @@ public class Game {
 		inPenaltyBox[howManyPlayers()] = false;
 
 		System.out.println(playerName + " was added");
-		System.out.println("They are player number " + players.size());
+		System.out.println("There are " + players.size() + " players");
 		return true;
-	}
-
-	public int howManyPlayers() {
-		return players.size();
 	}
 
 	public void roll(int roll) {
@@ -210,6 +197,10 @@ public class Game {
 
 	private boolean didPlayerWin() {
 		return !(purses[currentPlayer] == 6);
+	}
+
+	private int howManyPlayers() {
+		return players.size();
 	}
 
 }

@@ -12,9 +12,9 @@ public class GameRunner {
 	public static void main(String[] args) {
 		Game aGame = new Game();
 		
-		aGame.Add("Chet");
-		aGame.Add("Pat");
-		aGame.Add("Sue");
+		aGame.addPlayer("Chet");
+		aGame.addPlayer("Pat");
+		aGame.addPlayer("Sue");
 		
 		Random rand = new Random();
 	

@@ -1,5 +1,5 @@
 Cedric was added
-They are player number 1
+There are 1 players
 Cedric is the current player
 They have rolled a 12
 Cedric's new location is 0

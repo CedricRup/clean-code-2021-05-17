@@ -1,7 +1,7 @@
 Cedric was added
-They are player number 1
+There are 1 players
 Eloïse was added
-They are player number 2
+There are 2 players
 Cedric is the current player
 They have rolled a 1
 Cedric's new location is 1
