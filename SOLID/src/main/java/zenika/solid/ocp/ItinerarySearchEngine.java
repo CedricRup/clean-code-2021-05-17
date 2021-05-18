@@ -2,21 +2,15 @@ package zenika.solid.ocp;
 
 import java.time.Duration;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static java.util.Comparator.comparing;
 
 public class ItinerarySearchEngine {
     
-    public Optional<Itinerary> optimalItinerary(Trip trip, ItineraryPreference pref) {
-        switch(pref) {
-            case CHEAPEST: 
-                return itinerariesFor(trip).min(comparing(Itinerary::cost));
-            case SHORTEST: 
-                return itinerariesFor(trip).min(comparing(Itinerary::duration));
-            default:
-                throw new IllegalArgumentException("Unknown ItineraryType: " + pref);
-        }
+    public <T extends Comparable<T>> Optional<Itinerary> optimalItinerary(Trip trip, Function<Itinerary, T> prefCalculator) {
+        return itinerariesFor(trip).min(comparing(prefCalculator));
     }
 
     private Stream<Itinerary> itinerariesFor(Trip trip) {

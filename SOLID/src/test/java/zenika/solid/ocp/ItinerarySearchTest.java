@@ -16,7 +16,7 @@ public class ItinerarySearchTest {
     @Test public void should_find_shortest_itinerary() {
         Trip trip = Trip.from(Paris).to(Tokyo);
 
-        Optional<Itinerary> optionalShortest =  search.optimalItinerary(trip, ItineraryPreference.SHORTEST);
+        Optional<Itinerary> optionalShortest =  search.optimalItinerary(trip, t->t.duration());
 
         assertTrue(optionalShortest.isPresent());
         Itinerary shortest =  optionalShortest.get();
@@ -26,7 +26,7 @@ public class ItinerarySearchTest {
     @Test public void should_find_cheapest_itinerary() {
         Trip trip = Trip.from(Paris).to(Tokyo);
 
-        Optional<Itinerary> optionalCheapest =  search.optimalItinerary(trip, ItineraryPreference.CHEAPEST);
+        Optional<Itinerary> optionalCheapest =  search.optimalItinerary(trip, t->t.cost());
 
         assertTrue(optionalCheapest.isPresent());
         Itinerary cheapest =  optionalCheapest.get();
