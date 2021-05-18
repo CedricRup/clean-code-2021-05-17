@@ -1,24 +1,23 @@
 package zenika.solid.lsp;
 
-public class Square extends Rectangle {
+public class Square implements HasArea {
 
-    @Override
-    public void setHeight(int height) {
-        setSide(height);
-    }
+    private int side;
 
-    @Override
-    public void setWidth(int width) {
-        setSide(width);
+    public Square(int side) {
+        this.side = side;
     }
 
     public void setSide(int side) {
-        super.setHeight(side);
-        super.setWidth(side);
+        this.side = side;
     }
     
     public int getSide() {
-        return getHeight();
+        return side;
     }
-        
+
+    @Override
+    public int getArea() {
+        return side*side;
+    }
 }

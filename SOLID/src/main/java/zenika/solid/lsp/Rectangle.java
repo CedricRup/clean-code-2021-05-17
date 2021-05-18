@@ -1,8 +1,13 @@
 package zenika.solid.lsp;
 
-public class Rectangle {
+public class Rectangle implements HasArea{
     private int width;
     private int height;
+
+    public Rectangle(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
 
     public int getWidth() {
         return this.width;
