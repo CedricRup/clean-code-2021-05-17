@@ -1,57 +1,87 @@
 package com.adaptionsoft.games.trivia;
 
-import org.junit.Before;
-import org.junit.Test;
-
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
+import org.junit.Test;
+
 public class RealUnitTest {
 
-    Game        game;
-    TestConsole testConsole;
+	Game game;
+	TestConsole testConsole;
 
-    @Before
-    public void setup() {
+	@Before
+	public void setup() {
 
-        testConsole = new TestConsole();
-        game        = new Game(testConsole);
+		testConsole = new TestConsole();
+		game = new Game(testConsole);
 
-        game.addPlayer("Bob");
+		game.addPlayer("Bob");
 
-    }
+	}
 
-    @Test
-    public void isWasCorrectlyAnsweredAndIsFreeReturnTrue() {
+	@Test
+	public void isWasCorrectlyAnsweredAndIsFreeReturnTrue() {
 
-        assertTrue(game.wasCorrectlyAnswered());
+		assertTrue(game.wasCorrectlyAnswered());
 
-    }
+	}
 
-    @Test
-    public void isWasCorrectlyAnsweredAndIsInJailReturnTrue() {
+	@Test
+	public void isWasCorrectlyAnsweredAndIsInJailReturnTrue() {
 
-        game.wrongAnswer();
-        assertTrue(game.wasCorrectlyAnswered());
+		game.wrongAnswer();
+		assertTrue(game.wasCorrectlyAnswered());
 
-    }
+	}
 
-    @Test
-    public void isWasCorrectlyAnsweredAndPurseIsWinningReturnFalse() {
+	@Test
+	public void isWasCorrectlyAnsweredAndPurseIsWinningReturnFalse() {
 
-        for (int i = 0; i < 5; i++)
-             game.wasCorrectlyAnswered();
-        assertFalse(game.wasCorrectlyAnswered());
+		for (int i = 0; i < 5; i++) {
+			game.wasCorrectlyAnswered();
+		}
+		assertFalse(game.wasCorrectlyAnswered());
 
-    }
+	}
 
-    @Test
-    public void isWasCorrectlyAnsweredAndInOutOfPenaltyBoxReturnFalse() {
+	@Test
+	public void isWasCorrectlyAnsweredAndInOutOfPenaltyBoxReturnFalse() {
+		game.wrongAnswer(); // Jail
+		game.roll(5);
+		assertTrue(game.wasCorrectlyAnswered());
+	}
 
-        game.wrongAnswer(); // Jail
-        game.roll(5);
-        assertTrue(game.wasCorrectlyAnswered());
+	@Test
+	public void playerHasOneGoldIfAnswerIsCorrect() {
 
-    }
+		game.wasCorrectlyAnswered();
+		assertEquals(1, game.getCurrentPlayer().getPurse());
+
+	}
+
+	@Test
+	public void playerHasSixGoldIfAnswerIsCorrect6times() {
+		for (int i = 0; i < 6; i++) {
+			game.wasCorrectlyAnswered();
+		}
+		assertEquals(6, game.getCurrentPlayer().getPurse());
+	}
+
+	@Test
+	public void playerHasZeroGoldIfAnswerIsWrong() {
+		game.wrongAnswer();
+		assertEquals(0, game.getCurrentPlayer().getPurse());
+	}
+
+	@Test
+	public void playerHasOneGoldIfWrongAnswerThenRightAnswer() {
+		game.wrongAnswer(); // Jail
+		game.roll(5);
+		game.wasCorrectlyAnswered();
+		assertEquals(1, game.getCurrentPlayer().getPurse());
+	}
 
 }

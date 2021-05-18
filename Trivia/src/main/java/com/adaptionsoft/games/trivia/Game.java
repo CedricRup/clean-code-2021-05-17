@@ -83,7 +83,7 @@ public class Game {
 		return getCurrentPlayer().getPlace();
 	}
 
-	private Player getCurrentPlayer() {
+	public Player getCurrentPlayer() {
 		return players.get(currentPlayerIndex);
 	}
 
