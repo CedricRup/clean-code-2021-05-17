@@ -84,4 +84,33 @@ public class RealUnitTest {
 		assertEquals(1, game.getCurrentPlayer().getPurse());
 	}
 
+	@Test
+	public void playerIsChangedAfterRightAnswer() {
+		game.addPlayer("John");
+		assertEquals("Bob", game.getCurrentPlayer().getName());
+
+		game.wasCorrectlyAnswered();
+		assertEquals("John", game.getCurrentPlayer().getName());
+	}
+
+	@Test
+	public void playerIsChangedAfterWrongAnswer() {
+		game.addPlayer("John");
+		game.wrongAnswer();
+		game.wrongAnswer();
+		assertEquals("Bob", game.getCurrentPlayer().getName());
+
+		game.wasCorrectlyAnswered();
+		assertEquals("John", game.getCurrentPlayer().getName());
+	}
+
+	@Test
+	public void playerIsChangedAfterWhenPlayerIsOutOfPenaltyBox() {
+		game.addPlayer("John");
+		game.wrongAnswer();
+		game.wrongAnswer();
+		game.roll(5);
+		game.wasCorrectlyAnswered();
+		assertEquals("John", game.getCurrentPlayer().getName());
+	}
 }
