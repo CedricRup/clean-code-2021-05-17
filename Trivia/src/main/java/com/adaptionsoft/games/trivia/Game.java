@@ -129,10 +129,10 @@ public class Game {
 	 * To Call when answer is right
 	 */
 	public boolean wasCorrectlyAnswered() {
-		boolean successfulCommand = true;
 		if (isFree()) {
-			successfulCommand = successfulCommand();
+			scoring();
 		}
+		boolean successfulCommand = didPlayerWin();
 		changePlayer();
 		return successfulCommand;
 	}
@@ -141,12 +141,10 @@ public class Game {
 		return !getCurrentPlayer().isInJail() || outOfPenaltyBox;
 	}
 
-	private boolean successfulCommand() {
+	private void scoring() {
 		console.printLine("Answer was correct!!!!");
 		getCurrentPlayer().increasePurse();
 		console.printLine(getCurrentPlayer() + " now has " + getCurrentPlayer().getPurse() + " Gold Coins.");
-
-		return didPlayerWin();
 	}
 
 	private void changePlayer() {
