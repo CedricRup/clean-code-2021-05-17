@@ -8,178 +8,168 @@ import com.adaptionsoft.games.trivia.runner.Player;
 
 public class Game {
 
-    private Console console;
-    private static final int NUMBER_OF_QUESTIONS_BY_CATEGORY = 50;
-    private static final int WINNING_SCORE = 6;
-    private final List<Player> players = new ArrayList<>();
+	private final Console console;
+	private static final int NUMBER_OF_QUESTIONS_BY_CATEGORY = 50;
+	private static final int WINNING_SCORE = 6;
+	private final List<Player> players = new ArrayList<>();
 
-    private final LinkedList<String> popQuestions = new LinkedList<>();
-    private final LinkedList<String> scienceQuestions = new LinkedList<>();
-    private final LinkedList<String> sportsQuestions = new LinkedList<>();
-    private final LinkedList<String> rockQuestions = new LinkedList<>();
+	private final LinkedList<String> popQuestions = new LinkedList<>();
+	private final LinkedList<String> scienceQuestions = new LinkedList<>();
+	private final LinkedList<String> sportsQuestions = new LinkedList<>();
+	private final LinkedList<String> rockQuestions = new LinkedList<>();
 
-    private int currentPlayerIndex = 0;
-    private boolean outOfPenaltyBox;
+	private int currentPlayerIndex = 0;
+	private boolean outOfPenaltyBox;
 
-    public Game(Console console) {
-        this.console = console;
-        for (int i = 0; i < NUMBER_OF_QUESTIONS_BY_CATEGORY; i++) {
-            popQuestions.addLast("Pop Question " + i);
-            scienceQuestions.addLast("Science Question " + i);
-            sportsQuestions.addLast("Sports Question " + i);
-            rockQuestions.addLast("Rock Question " + i);
-        }
-    }
+	public Game(Console console) {
+		this.console = console;
+		for (int i = 0; i < NUMBER_OF_QUESTIONS_BY_CATEGORY; i++) {
+			popQuestions.addLast("Pop Question " + i);
+			scienceQuestions.addLast("Science Question " + i);
+			sportsQuestions.addLast("Sports Question " + i);
+			rockQuestions.addLast("Rock Question " + i);
+		}
+	}
 
-    public void addPlayer(final String playerName) {
+	public void addPlayer(final String playerName) {
 
-        players.add(new Player(playerName));
-        releaseFromJail();
+		players.add(new Player(playerName));
+		releaseFromJail();
 
-        console.printLine(playerName + " was added");
-        console.printLine("There are " + howManyPlayers() + " players");
-    }
+		console.printLine(playerName + " was added");
+		console.printLine("There are " + howManyPlayers() + " players");
+	}
 
-    private void releaseFromJail() {
-        getCurrentPlayer().releaseFromJail();
-    }
+	private void releaseFromJail() {
+		getCurrentPlayer().releaseFromJail();
+	}
 
-    public void roll(int roll) {
-        console.printLine(getCurrentPlayer() + " is the current player");
-        console.printLine("They have rolled a " + roll);
+	public void roll(int roll) {
+		console.printLine(getCurrentPlayer() + " is the current player");
+		console.printLine("They have rolled a " + roll);
 
-        if (getCurrentPlayer().isInJail()) {
-            if (roll % 2 != 0) {
-                // User is getting out of penalty box
-                outOfPenaltyBox = true;
-                // Write tha user get out
-                console.printLine(getCurrentPlayer() + " is getting out of the penalty box");
-                // Add roll to place
-                addRollToPlace(roll);
+		if (getCurrentPlayer().isInJail()) {
+			if (roll % 2 != 0) {
+				// User is getting out of penalty box
+				outOfPenaltyBox = true;
+				// Write tha user get out
+				console.printLine(getCurrentPlayer() + " is getting out of the penalty box");
+				// Add roll to place
+				addRollToPlace(roll);
 
-                console.printLine(getCurrentPlayer() + "'s new location is " + getPlace());
-                console.printLine("The category is " + currentCategory().getLabel());
-                askQuestion();
-            }
-            else {
-                console.printLine(getCurrentPlayer() + " is not getting out of the penalty box");
-                outOfPenaltyBox = false;
-            }
+				console.printLine(getCurrentPlayer() + "'s new location is " + getPlace());
+				console.printLine("The category is " + currentCategory().getLabel());
+				askQuestion();
+			} else {
+				console.printLine(getCurrentPlayer() + " is not getting out of the penalty box");
+				outOfPenaltyBox = false;
+			}
 
-        }
-        else {
+		} else {
 
-            addRollToPlace(roll);
-            console.printLine(getCurrentPlayer() + "'s new location is " + getPlace());
-            console.printLine("The category is " + currentCategory().getLabel());
-            askQuestion();
-        }
+			addRollToPlace(roll);
+			console.printLine(getCurrentPlayer() + "'s new location is " + getPlace());
+			console.printLine("The category is " + currentCategory().getLabel());
+			askQuestion();
+		}
 
-    }
+	}
 
-    private int getPlace() {
-        return getCurrentPlayer().getPlace();
-    }
+	private int getPlace() {
+		return getCurrentPlayer().getPlace();
+	}
 
-    private Player getCurrentPlayer() {
-        return players.get(currentPlayerIndex);
-    }
+	private Player getCurrentPlayer() {
+		return players.get(currentPlayerIndex);
+	}
 
-    private void addRollToPlace(int roll) {
-        getCurrentPlayer().increasePlace(roll);
-    }
+	private void addRollToPlace(int roll) {
+		getCurrentPlayer().increasePlace(roll);
+	}
 
-    private void askQuestion() {
-        if (QuestionsCategory.POP == currentCategory()) {
-            console.printLine(popQuestions.removeFirst());
-        }
-        if (QuestionsCategory.SCIENCE == currentCategory()) {
-            console.printLine(scienceQuestions.removeFirst());
-        }
-        if (QuestionsCategory.SPORTS == currentCategory()) {
-            console.printLine(sportsQuestions.removeFirst());
-        }
-        if (QuestionsCategory.ROCK == currentCategory()) {
-            console.printLine(rockQuestions.removeFirst());
-        }
-    }
+	private void askQuestion() {
+		if (QuestionsCategory.POP == currentCategory()) {
+			console.printLine(popQuestions.removeFirst());
+		}
+		if (QuestionsCategory.SCIENCE == currentCategory()) {
+			console.printLine(scienceQuestions.removeFirst());
+		}
+		if (QuestionsCategory.SPORTS == currentCategory()) {
+			console.printLine(sportsQuestions.removeFirst());
+		}
+		if (QuestionsCategory.ROCK == currentCategory()) {
+			console.printLine(rockQuestions.removeFirst());
+		}
+	}
 
-    private QuestionsCategory currentCategory() {
-        switch (getPlace()) {
-            case 0:
-            case 4:
-            case 8:
-                return QuestionsCategory.POP;
-            case 1:
-            case 5:
-            case 9:
-                return QuestionsCategory.SCIENCE;
-            case 2:
-            case 6:
-            case 10:
-                return QuestionsCategory.SPORTS;
-            default:
-                return QuestionsCategory.ROCK;
-        }
-    }
+	private QuestionsCategory currentCategory() {
+		switch (getPlace()) {
+		case 0:
+		case 4:
+		case 8:
+			return QuestionsCategory.POP;
+		case 1:
+		case 5:
+		case 9:
+			return QuestionsCategory.SCIENCE;
+		case 2:
+		case 6:
+		case 10:
+			return QuestionsCategory.SPORTS;
+		default:
+			return QuestionsCategory.ROCK;
+		}
+	}
 
-    /**
-     * To Call when answer is right
-     */
-    public boolean wasCorrectlyAnswered() {
-        if (getCurrentPlayer().isInJail()) {
-            if (outOfPenaltyBox) {
-                console.printLine("Answer was correct!!!!");
-                getCurrentPlayer().increasePurse();
-                console.printLine(getCurrentPlayer() + " now has " + getCurrentPlayer().getPurse() + " Gold Coins.");
+	/**
+	 * To Call when answer is right
+	 */
+	public boolean wasCorrectlyAnswered() {
+		if (isFree()) {
+			return successfullCommand();
+		}
+		changePlayer();
+		return true;
+	}
 
-                final boolean winner = didPlayerWin();
-                changePlayer();
+	private boolean isFree() {
+		return !getCurrentPlayer().isInJail() || outOfPenaltyBox;
+	}
 
-                return winner;
-            }
-            else {
-                changePlayer();
-                return true;
-            }
+	private boolean successfullCommand() {
+		console.printLine("Answer was correct!!!!");
+		getCurrentPlayer().increasePurse();
+		console.printLine(getCurrentPlayer() + " now has " + getCurrentPlayer().getPurse() + " Gold Coins.");
 
-        }
-        else {
+		final boolean winner = didPlayerWin();
+		changePlayer();
 
-            console.printLine("Answer was corrent!!!!");
-            getCurrentPlayer().increasePurse();
-            console.printLine(getCurrentPlayer() + " now has " + getCurrentPlayer().getPurse() + " Gold Coins.");
+		return winner;
+	}
 
-            final boolean winner = didPlayerWin();
-            changePlayer();
+	private void changePlayer() {
+		currentPlayerIndex++;
+		if (currentPlayerIndex == players.size()) {
+			currentPlayerIndex = 0;
+		}
+	}
 
-            return winner;
-        }
-    }
+	public boolean wrongAnswer() {
+		console.printLine("Question was incorrectly answered");
+		console.printLine(getCurrentPlayer() + " was sent to the penalty box");
+		getCurrentPlayer().putInJail();
 
-    private void changePlayer() {
-        currentPlayerIndex++;
-        if (currentPlayerIndex == players.size()) {
-            currentPlayerIndex = 0;
-        }
-    }
+		changePlayer();
+		// Must always return true
+		return true;
+	}
 
-    public boolean wrongAnswer() {
-        console.printLine("Question was incorrectly answered");
-        console.printLine(getCurrentPlayer() + " was sent to the penalty box");
-        getCurrentPlayer().putInJail();
+	private boolean didPlayerWin() {
+		return getCurrentPlayer().getPurse() != WINNING_SCORE;
+	}
 
-        changePlayer();
-        // Must always return true
-        return true;
-    }
-
-    private boolean didPlayerWin() {
-        return getCurrentPlayer().getPurse() != WINNING_SCORE;
-    }
-
-    private int howManyPlayers() {
-        return players.size();
-    }
+	private int howManyPlayers() {
+		return players.size();
+	}
 
 }
