@@ -49,7 +49,7 @@ public class Game {
 		console.printLine("They have rolled a " + roll);
 
 		if (getCurrentPlayer().isInJail()) {
-			if (roll % 2 != 0) {
+			if (isOdd(roll)) {
 				// User is getting out of penalty box
 				outOfPenaltyBox = true;
 				// Write tha user get out
@@ -73,6 +73,10 @@ public class Game {
 			askQuestion();
 		}
 
+	}
+
+	private boolean isOdd(int roll) {
+		return roll % 2 != 0;
 	}
 
 	private int getPlace() {
