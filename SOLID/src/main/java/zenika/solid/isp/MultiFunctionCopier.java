@@ -1,6 +1,6 @@
 package zenika.solid.isp;
 
-public class MultiFunctionCopier implements Machine {
+public class MultiFunctionCopier implements ICanPhotocopy, ICanPrint, ICanFax, ICanScan {
 
 	@Override
 	public void print() {
