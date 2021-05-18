@@ -1,12 +1,10 @@
 package zenika.solid.dip.domain.booking;
 
-import zenika.solid.dip.infrastructure.AvailabilityDao;
-
 public class BookingService {
     
-    private final AvailabilityDao bookings;
+    private final AvailabilityAsker bookings;
 
-    public BookingService(AvailabilityDao bookings) {
+    public BookingService(AvailabilityAsker bookings) {
         this.bookings = bookings;
     }
 

@@ -2,7 +2,6 @@ package zenika.solid.dip.domain.booking;
 
 import org.junit.Before;
 import org.junit.Test;
-import zenika.solid.dip.infrastructure.AvailabilityDao;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -11,11 +10,11 @@ import static org.mockito.Mockito.when;
 
 public class BookingTest {
     
-    private AvailabilityDao availabilities;
+    private AvailabilityAsker availabilities;
     private BookingService booking;
     
     @Before public void setup() {
-        availabilities = mock(AvailabilityDao.class);
+        availabilities = mock(AvailabilityAsker.class);
         booking = new BookingService(availabilities);
     }  
     
