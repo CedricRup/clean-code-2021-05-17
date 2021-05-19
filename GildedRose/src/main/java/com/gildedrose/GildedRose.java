@@ -17,40 +17,66 @@ class GildedRose {
 		for (int i = 0; i < items.length; i++) {
 			final Item item = items[i];
 
-			if (item.name.equals(SULFURAS)) {
-			} else {
+			switch (item.name) {
+				case SULFURAS:
+					break;
+				case AGED_BRIE:
+					updateAgedBrieQuality(item);
+					break;
+				case BACKSTAGE:
+					updateBackstageQuality(item);
+					break;
+				default:
+					updateRegularItemsQuality(item);
+					break;
+			}
+		}
+	}
 
-				if (item.name.equals(AGED_BRIE) || item.name.equals(BACKSTAGE)) {
-					if (isItemQualityUnderMax(item)) {
-						item.quality++;
+	private void updateRegularItemsQuality(Item item) {
+		if (item.quality > 0) {
+			item.quality--;
+		}
 
-						if (item.name.equals(BACKSTAGE)) {
-							if (item.sellIn < 11 && isItemQualityUnderMax(item)) {
-								item.quality++;
-							}
+		item.sellIn--;
 
-							if (item.sellIn < 6 && isItemQualityUnderMax(item)) {
-								item.quality++;
-							}
-						}
-					}
-				} else if (item.quality > 0) {
-					item.quality--;
-				}
+		if (item.sellIn < 0) {
+			if (item.quality > 0) {
+				item.quality--;
+			}
+		}
+	}
 
-				item.sellIn--;
+	private void updateBackstageQuality(Item item) {
+		if (isItemQualityUnderMax(item)) {
+			item.quality++;
 
-				if (item.sellIn < 0) {
-					if (item.name.equals(AGED_BRIE)) {
-						if (isItemQualityUnderMax(item)) {
-							item.quality++;
-						}
-					} else if (item.name.equals(BACKSTAGE)) {
-						item.quality = 0;
-					} else if (item.quality > 0) {
-						item.quality--;
-					}
-				}
+			if (item.sellIn < 11 && isItemQualityUnderMax(item)) {
+				item.quality++;
+			}
+
+			if (item.sellIn < 6 && isItemQualityUnderMax(item)) {
+				item.quality++;
+			}
+		}
+
+		item.sellIn--;
+
+		if (item.sellIn < 0) {
+			item.quality = 0;
+		}
+	}
+
+	private void updateAgedBrieQuality(Item item) {
+		if (isItemQualityUnderMax(item)) {
+			item.quality++;
+		}
+
+		item.sellIn--;
+
+		if (item.sellIn < 0) {
+			if (isItemQualityUnderMax(item)) {
+				item.quality++;
 			}
 		}
 	}
