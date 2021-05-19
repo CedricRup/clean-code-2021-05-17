@@ -1,0 +1,1 @@
+[Regular Item, 3, 10] => Regular Item, 2, 9 

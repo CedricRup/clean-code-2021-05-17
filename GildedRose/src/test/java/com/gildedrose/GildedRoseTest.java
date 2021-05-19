@@ -1,7 +1,11 @@
 package com.gildedrose;
 
+import org.approvaltests.Approvals;
+import org.approvaltests.combinations.CombinationApprovals;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
 
 class GildedRoseTest {
 
@@ -9,12 +13,21 @@ class GildedRoseTest {
 
     @Test
     void should_decrease_item_quality(){
-        Item regularItem = new Item("Regular Item", 3, 10);
+        // Given
+        String[] names = new String[] { "Regular Item" };
+        Integer[] sellIns = new Integer[] { 3 };
+        Integer[] qualities = new Integer[] { 10 };
+
+        // When / Then
+        CombinationApprovals.verifyAllCombinations(this::getItem, names, sellIns, qualities);
+    }
+
+    private Item getItem(String name, int sellIn, int quality) {
+        Item regularItem = new Item(name, sellIn, quality);
 
         GildedRose gildedRose = new GildedRose(new Item[] { regularItem } );
         gildedRose.updateQuality();
-
-        Assertions.assertEquals(9, regularItem.quality);
+        return regularItem;
     }
 
     @Test
