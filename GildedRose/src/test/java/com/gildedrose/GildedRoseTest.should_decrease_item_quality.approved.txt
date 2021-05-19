@@ -1,1 +1,8 @@
 [Regular Item, 3, 10] => Regular Item, 2, 9 
+[Regular Item, 3, 0] => Regular Item, 2, 0 
+[Regular Item, 0, 10] => Regular Item, -1, 8 
+[Regular Item, 0, 0] => Regular Item, -1, 0 
+[Sulfuras, Hand of Ragnaros, 3, 10] => Sulfuras, Hand of Ragnaros, 3, 10 
+[Sulfuras, Hand of Ragnaros, 3, 0] => Sulfuras, Hand of Ragnaros, 3, 0 
+[Sulfuras, Hand of Ragnaros, 0, 10] => Sulfuras, Hand of Ragnaros, 0, 10 
+[Sulfuras, Hand of Ragnaros, 0, 0] => Sulfuras, Hand of Ragnaros, 0, 0 
